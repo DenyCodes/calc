@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Desempenho de Vendas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: bold;
+      color: #EF4D5A;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .slider-group {
+      margin-bottom: 16px;
+    }
+
+    .slider-group label {
+      display: block;
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+
+    .slider-group input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 4px;
+      background: #cbd5e0;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .slider-group input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #cbd5e0;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .slider-group span {
+      font-size: 14px;
+      color: #718096;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .quick-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .quick-buttons button {
+      background-color: #EF4D5A;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .results {
+      background-color: #f7fafc;
+      padding: 16px;
+      border-radius: 8px;
+    }
+
+    .results h2 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2d3748;
+      margin-bottom: 12px;
+    }
+
+    .result-item {
+      background-color: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      margin-bottom: 8px;
+    }
+
+    .result-item h3 {
+      font-size: 14px;
+      color: #4a5568;
+      margin: 0;
+    }
+
+    .result-item p {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 4px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Calculadora de Desempenho de Vendas</h1>
+    </div>
+
+    <div class="grid">
+      <div>
+        <!-- Investimento Mensal -->
+        <div class="slider-group">
+          <label>Investimento por Mês (R$)</label>
+          <input type="range" id="investimento-slider" min="0" max="50000" value="0">
+          <input type="number" id="investimento" value="0" min="0" max="50000">
+          <span id="investimento-value">R$ 0</span>
+          <div class="quick-buttons">
+            <button onclick="adjustValue('investimento', 500)">+500</button>
+            <button onclick="adjustValue('investimento', 1000)">+1000</button>
+            <button onclick="adjustValue('investimento', 1500)">+1500</button>
+          </div>
+        </div>
+
+        <!-- Preço por Lead -->
+        <div class="slider-group">
+          <label>Preço por Lead (R$)</label>
+          <input type="range" id="preco-lead-slider" min="0" max="100" value="0">
+          <span id="preco-lead-value">R$ 0</span>
+        </div>
+
+        <!-- Quantidade de Agendamentos -->
+        <div class="slider-group">
+          <label>Quantidade de Agendamentos</label>
+          <input type="range" id="agendamento-slider" min="0" max="100" value="0">
+          <span id="agendamento-value">0</span>
+        </div>
+
+        <!-- Quantidade de Comparecimentos -->
+        <div class="slider-group">
+          <label>Quantidade de Comparecimentos</label>
+          <input type="range" id="comparecimento-slider" min="0" max="100" value="0">
+          <span id="comparecimento-value">0</span>
+        </div>
+
+        <!-- Quantidade de Contratos Fechados -->
+        <div class="slider-group">
+          <label>Quantidade de Contratos Fechados</label>
+          <input type="range" id="conversao-slider" min="0" max="100" value="0">
+          <span id="conversao-value">0</span>
+        </div>
+
+        <!-- Ticket Médio -->
+        <div class="slider-group">
+          <label>Ticket Médio (R$)</label>
+          <input type="range" id="ticket-slider" min="0" max="50000" value="0">
+          <input type="number" id="ticket" value="0" min="0" max="50000">
+          <span id="ticket-value">R$ 0</span>
+          <div class="quick-buttons">
+            <button onclick="adjustValue('ticket', 500)">+500</button>
+            <button onclick="adjustValue('ticket', 1000)">+1000</button>
+            <button onclick="adjustValue('ticket', 1500)">+1500</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div class="results">
+        <h2>Resultados (Mensal):</h2>
+        <div class="result-item">
+          <h3>Faturamento</h3>
+          <p style="color: green;" id="faturamento">R$ 0</p>
+        </div>
+        <div class="result-item">
+          <h3>Número de Vendas</h3>
+          <p style="color: #EF4D5A;" id="vendas">0</p>
+        </div>
+        <div class="result-item">
+          <h3>Custo por Call Realizada</h3>
+          <p id="custo-call">R$ 0</p>
+        </div>
+        <div class="result-item">
+          <h3>CAC</h3>
+          <p id="cac">R$ 0</p>
+        </div>
+        <div class="result-item">
+          <h3>ROAS</h3>
+          <p style="color: #EF4D5A;" id="roas">0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Função para sincronizar sliders e inputs
+    function syncInputs(id) {
+      const slider = document.getElementById(`${id}-slider`);
+      const input = document.getElementById(id);
+      const valueSpan = document.getElementById(`${id}-value`);
+
+      // Sincroniza o valor do input com o slider e vice-versa
+      if (input) {
+        if (event.target === slider) {
+          input.value = slider.value;
+        } else {
+          slider.value = input.value;
+        }
+      }
+
+      // Atualiza o valor exibido
+      if (id === 'investimento' || id === 'ticket') {
+        valueSpan.innerText = `R$ ${parseInt(slider.value).toLocaleString()}`;
+      } else if (id === 'preco-lead') {
+        valueSpan.innerText = `R$ ${slider.value}`;
+      } else {
+        valueSpan.innerText = `${slider.value}`; // Exibe como número inteiro
+      }
+
+      // Recalcula os resultados
+      calculateResults();
+    }
+
+    // Função para ajustar valores com os botões rápidos
+    function adjustValue(id, amount) {
+      const slider = document.getElementById(`${id}-slider`);
+      const input = document.getElementById(id);
+      const valueSpan = document.getElementById(`${id}-value`);
+
+      let newValue = parseInt(slider.value) + amount;
+      newValue = Math.max(newValue, parseInt(slider.min)); // Garante que não seja menor que o mínimo
+      newValue = Math.min(newValue, parseInt(slider.max)); // Garante que não seja maior que o máximo
+
+      slider.value = newValue;
+      if (input) input.value = newValue;
+
+      // Atualiza o valor exibido
+      if (id === 'investimento' || id === 'ticket') {
+        valueSpan.innerText = `R$ ${newValue.toLocaleString()}`;
+      } else if (id === 'preco-lead') {
+        valueSpan.innerText = `R$ ${newValue}`;
+      } else {
+        valueSpan.innerText = `${newValue}`; // Exibe como número inteiro
+      }
+
+      // Recalcula os resultados
+      calculateResults();
+    }
+
+    // Função para calcular os resultados
+    function calculateResults() {
+      const investimento = parseInt(document.getElementById('investimento-slider').value);
+      const precoLead = parseInt(document.getElementById('preco-lead-slider').value);
+      const agendamento = parseInt(document.getElementById('agendamento-slider').value);
+      const comparecimento = parseInt(document.getElementById('comparecimento-slider').value);
+      const conversao = parseInt(document.getElementById('conversao-slider').value);
+      const ticket = parseInt(document.getElementById('ticket-slider').value);
+
+      // Cálculos
+      const numLeads = investimento / precoLead || 0; // Evita divisão por zero
+      const numAgendamentos = numLeads * (agendamento / 100) || 0; // Converte para porcentagem
+      const numComparecimentos = numAgendamentos * (comparecimento / 100) || 0; // Converte para porcentagem
+      const numVendas = conversao; // Número de Vendas = Quantidade de Contratos Fechados
+      const faturamento = numVendas * ticket || 0; // Faturamento = Contratos Fechados × Ticket Médio
+      const custoCall = investimento / numComparecimentos || 0; // Custo por Call = Investimento / Comparecimentos
+      const cac = investimento / numVendas || 0; // CAC = Investimento / Contratos Fechados
+      const roas = faturamento / investimento || 0; // ROAS = Faturamento / Investimento
+
+      // Atualiza os resultados
+      document.getElementById('faturamento').innerText = `R$ ${Math.round(faturamento).toLocaleString()}`;
+      document.getElementById('vendas').innerText = numVendas; // Número de Vendas = Quantidade de Contratos Fechados
+      document.getElementById('custo-call').innerText = `R$ ${custoCall.toFixed(2)}`;
+      document.getElementById('cac').innerText = `R$ ${cac.toFixed(2)}`;
+      document.getElementById('roas').innerText = roas.toFixed(1);
+    }
+
+    // Adiciona listeners para os sliders e inputs
+    document.querySelectorAll('input[type="range"], input[type="number"]').forEach(input => {
+      input.addEventListener('input', () => {
+        const id = input.id.replace('-slider', '').replace('-input', '');
+        syncInputs(id);
+      });
+    });
+
+    // Inicializa os valores ao carregar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      syncInputs('investimento');
+      syncInputs('preco-lead');
+      syncInputs('agendamento');
+      syncInputs('comparecimento');
+      syncInputs('conversao');
+      syncInputs('ticket');
+      calculateResults();
+    });
+  </script>
+</body>
+</html>

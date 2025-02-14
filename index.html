@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9fafb;
+      background: linear-gradient(135deg, #f9fafb, #e2e8f0);
       margin: 0;
       padding: 0;
       display: flex;
@@ -19,8 +19,8 @@
     .container {
       background-color: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 24px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 32px;
       max-width: 900px;
       width: 100%;
     }
@@ -33,19 +33,20 @@
     }
 
     .header h1 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: bold;
       color: #EF4D5A;
+      margin: 0;
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 32px;
     }
 
     .slider-group {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .slider-group label {
@@ -53,81 +54,107 @@
       font-size: 14px;
       color: #4a5568;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .slider-group input[type="range"] {
       width: 100%;
       appearance: none;
-      height: 4px;
+      height: 6px;
       background: #cbd5e0;
       border-radius: 4px;
       outline: none;
       cursor: pointer;
     }
 
+    .slider-group input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #EF4D5A;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
     .slider-group input[type="number"] {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #cbd5e0;
-      border-radius: 4px;
+      border-radius: 8px;
       font-size: 14px;
       margin-top: 8px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .slider-group span {
       font-size: 14px;
       color: #718096;
-      margin-top: 4px;
+      margin-top: 8px;
       display: inline-block;
     }
 
     .quick-buttons {
       display: flex;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 12px;
     }
 
     .quick-buttons button {
       background-color: #EF4D5A;
       color: white;
       border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
+      padding: 8px 16px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 12px;
+      transition: background-color 0.3s ease;
+    }
+
+    .quick-buttons button:hover {
+      background-color: #d8434f;
     }
 
     .results {
       background-color: #f7fafc;
-      padding: 16px;
-      border-radius: 8px;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
 
     .results h2 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       color: #2d3748;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .result-item {
       background-color: #ffffff;
-      padding: 12px;
+      padding: 16px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .result-item h3 {
       font-size: 14px;
       color: #4a5568;
       margin: 0;
+      font-weight: 500;
     }
 
     .result-item p {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       margin: 4px 0 0;
+      color: #2d3748;
+    }
+
+    .result-item small {
+      font-size: 12px;
+      color: #718096;
+      display: block;
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -159,25 +186,25 @@
           <span id="preco-lead-value">R$ 0</span>
         </div>
 
-        <!-- Quantidade de Agendamentos -->
+        <!-- Taxa de Agendamento -->
         <div class="slider-group">
-          <label>Quantidade de Agendamentos</label>
+          <label>Taxa de Agendamento (%)</label>
           <input type="range" id="agendamento-slider" min="0" max="100" value="0">
-          <span id="agendamento-value">0</span>
+          <span id="agendamento-value">0%</span>
         </div>
 
-        <!-- Quantidade de Comparecimentos -->
+        <!-- Taxa de Comparecimento -->
         <div class="slider-group">
-          <label>Quantidade de Comparecimentos</label>
+          <label>Taxa de Comparecimento (%)</label>
           <input type="range" id="comparecimento-slider" min="0" max="100" value="0">
-          <span id="comparecimento-value">0</span>
+          <span id="comparecimento-value">0%</span>
         </div>
 
-        <!-- Quantidade de Contratos Fechados -->
+        <!-- Taxa de Conversão -->
         <div class="slider-group">
-          <label>Quantidade de Contratos Fechados</label>
+          <label>Taxa de Conversão (%)</label>
           <input type="range" id="conversao-slider" min="0" max="100" value="0">
-          <span id="conversao-value">0</span>
+          <span id="conversao-value">0%</span>
         </div>
 
         <!-- Ticket Médio -->
@@ -206,7 +233,7 @@
           <p style="color: #EF4D5A;" id="vendas">0</p>
         </div>
         <div class="result-item">
-          <h3>Custo por Call Realizada</h3>
+          <h3>Custo por Call Agendada</h3>
           <p id="custo-call">R$ 0</p>
         </div>
         <div class="result-item">
@@ -216,6 +243,18 @@
         <div class="result-item">
           <h3>ROAS</h3>
           <p style="color: #EF4D5A;" id="roas">0</p>
+        </div>
+        <!-- Novo campo: Número de SDRs -->
+        <div class="result-item">
+          <h3>Número de SDRs</h3>
+          <p id="numero-sdrs">0</p>
+          <small>750 leads/mês por SDR</small>
+        </div>
+        <!-- Novo campo: Número de Closers -->
+        <div class="result-item">
+          <h3>Número de Closers</h3>
+          <p id="numero-closers">0</p>
+          <small>90 atendimentos/mês por Closer</small>
         </div>
       </div>
     </div>
@@ -242,6 +281,8 @@
         valueSpan.innerText = `R$ ${parseInt(slider.value).toLocaleString()}`;
       } else if (id === 'preco-lead') {
         valueSpan.innerText = `R$ ${slider.value}`;
+      } else if (id === 'agendamento' || id === 'comparecimento' || id === 'conversao') {
+        valueSpan.innerText = `${slider.value}%`; // Exibe como porcentagem
       } else {
         valueSpan.innerText = `${slider.value}`; // Exibe como número inteiro
       }
@@ -268,6 +309,8 @@
         valueSpan.innerText = `R$ ${newValue.toLocaleString()}`;
       } else if (id === 'preco-lead') {
         valueSpan.innerText = `R$ ${newValue}`;
+      } else if (id === 'agendamento' || id === 'comparecimento' || id === 'conversao') {
+        valueSpan.innerText = `${newValue}%`; // Exibe como porcentagem
       } else {
         valueSpan.innerText = `${newValue}`; // Exibe como número inteiro
       }
@@ -285,22 +328,30 @@
       const conversao = parseInt(document.getElementById('conversao-slider').value);
       const ticket = parseInt(document.getElementById('ticket-slider').value);
 
-      // Cálculos
-      const numLeads = investimento / precoLead || 0; // Evita divisão por zero
-      const numAgendamentos = numLeads * (agendamento / 100) || 0; // Converte para porcentagem
-      const numComparecimentos = numAgendamentos * (comparecimento / 100) || 0; // Converte para porcentagem
-      const numVendas = conversao; // Número de Vendas = Quantidade de Contratos Fechados
-      const faturamento = numVendas * ticket || 0; // Faturamento = Contratos Fechados × Ticket Médio
-      const custoCall = investimento / numComparecimentos || 0; // Custo por Call = Investimento / Comparecimentos
-      const cac = investimento / numVendas || 0; // CAC = Investimento / Contratos Fechados
+      // Cálculos intermediários (arredondando para cima)
+      const taxaAgendamento = Math.ceil((agendamento / 100) * (investimento / precoLead)) || 0;
+      const taxaComparecimento = Math.ceil((comparecimento / 100) * taxaAgendamento) || 0;
+      const taxaConversao = Math.ceil((conversao / 100) * taxaComparecimento) || 0;
+
+      // Resultados finais
+      const numVendas = taxaConversao; // Número de Vendas = Taxa de Conversão
+      const faturamento = numVendas * ticket || 0; // Faturamento = Número de Vendas × Ticket Médio
+      const custoCallAgendada = investimento / taxaComparecimento || 0; // Custo por Call Agendada = Investimento / Taxa de Comparecimento
+      const cac = investimento / numVendas || 0; // CAC = Investimento / Número de Vendas
       const roas = faturamento / investimento || 0; // ROAS = Faturamento / Investimento
 
-      // Atualiza os resultados
-      document.getElementById('faturamento').innerText = `R$ ${Math.round(faturamento).toLocaleString()}`;
-      document.getElementById('vendas').innerText = numVendas; // Número de Vendas = Quantidade de Contratos Fechados
-      document.getElementById('custo-call').innerText = `R$ ${custoCall.toFixed(2)}`;
+      // Cálculo do Número de SDRs e Closers
+      const numeroSDRs = Math.ceil((investimento / precoLead) / 750); // 1 SDR a cada 750 leads
+      const numeroClosers = Math.ceil(taxaComparecimento / 90); // 1 Closer a cada 90 atendimentos
+
+      // Atualiza os resultados (arredondando para cima)
+      document.getElementById('faturamento').innerText = `R$ ${Math.ceil(faturamento).toLocaleString()}`;
+      document.getElementById('vendas').innerText = Math.ceil(numVendas); // Número de Vendas arredondado para cima
+      document.getElementById('custo-call').innerText = `R$ ${custoCallAgendada.toFixed(2)}`;
       document.getElementById('cac').innerText = `R$ ${cac.toFixed(2)}`;
       document.getElementById('roas').innerText = roas.toFixed(1);
+      document.getElementById('numero-sdrs').innerText = numeroSDRs; // Número de SDRs
+      document.getElementById('numero-closers').innerText = numeroClosers; // Número de Closers
     }
 
     // Adiciona listeners para os sliders e inputs
